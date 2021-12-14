@@ -1,0 +1,19 @@
+{
+  "name": "log4jnode",
+  "version": "1.0.0",
+  "description": "log4jnode",
+  "main": "index.js",
+  "engines": {
+    "node": ">=12"
+  },
+  "type": "module",
+  "scripts": {
+    "dev": "node --trace-warnings index.js"
+  },
+  "author": "bp0",
+  "license": "ISC",
+  "dependencies": {
+    "got": "^11.8.2",
+    "hpagent": "^0.1.2"
+  }
+}

